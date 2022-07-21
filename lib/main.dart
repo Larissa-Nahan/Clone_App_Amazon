@@ -1,7 +1,6 @@
 import 'package:amazon/common/widgets/bottom_bar.dart';
 import 'package:amazon/features/auth/screens/auth_screen.dart';
 import 'package:amazon/features/auth/services/auth_service.dart';
-import 'package:amazon/features/home/screens/home_screen.dart';
 import 'package:amazon/providers/user_provider.dart';
 import 'package:amazon/router.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +53,7 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: ((settings) => generateRoute(settings)),
 // Páginal inicial
       home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-      //(token not empty vai para a home)
+      //(token not empty vai para a home (bottom page))
           ? const BottomBar()
       //(token empty vai para a pág de autenticação (sign up/in))
           : const AuthScreen(),
