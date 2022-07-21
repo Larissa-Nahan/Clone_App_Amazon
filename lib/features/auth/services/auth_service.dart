@@ -97,4 +97,39 @@ class AuthService {
       );
     }
   }
+
+  //Get user data
+  void getUserData({
+    required BuildContext context,
+  }) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String? token = preferences.getString('x-auth-token');
+
+      if (token == null) {
+        preferences.setString('x-auth-token', '');
+      }
+
+      var tokenRes = await http.post(
+        Uri.parse('$uri/tokenIsValid'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': token!,
+        },
+      );
+
+      var response = jsonDecode(tokenRes.body);
+
+        //(pegar o conteúdo do usuário)
+      if(response){
+        // await 
+      }
+
+    } catch (e) {
+      showSnackBar(
+        context,
+        e.toString(),
+      );
+    }
+  }
 }
