@@ -120,11 +120,19 @@ class AuthService {
 
       var response = jsonDecode(tokenRes.body);
 
-        //(pegar o conteúdo do usuário)
-      if(response){
-        // await 
-      }
+      //(pegar o conteúdo do usuário)
+      if (response) {
+        http.Response userRes = await http.get(
+          Uri.parse('$uri/'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token,
+          },
+        );
 
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.setUser(userRes.body);
+      }
     } catch (e) {
       showSnackBar(
         context,
