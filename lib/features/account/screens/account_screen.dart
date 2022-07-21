@@ -1,5 +1,6 @@
 import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/features/account/widgets/bellow_app_bar.dart';
+import 'package:amazon/features/account/widgets/top_buttons.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -46,7 +47,12 @@ class AccountScreen extends StatelessWidget {
         ),
       ),
       body: Column(
-        children: const [BellowAppBar()],
+        children: const [
+          BellowAppBar(),
+          SizedBox(height: 10),
+          TopButtons(),
+          SizedBox(height: 20),
+        ],
       ),
     );
   }

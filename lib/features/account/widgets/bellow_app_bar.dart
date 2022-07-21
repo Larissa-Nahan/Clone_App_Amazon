@@ -22,6 +22,7 @@ class BellowAppBar extends StatelessWidget {
               text: 'Hello, ',
               style: const TextStyle(
                 fontSize: 22,
+                fontWeight: FontWeight.w600,
                 color: Colors.black,
               ),
               children: [
