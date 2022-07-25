@@ -1,4 +1,5 @@
 import 'package:amazon/common/widgets/bottom_bar.dart';
+import 'package:amazon/features/admin/screen/admin_screen.dart';
 import 'package:amazon/features/auth/screens/auth_screen.dart';
 import 'package:amazon/features/auth/services/auth_service.dart';
 import 'package:amazon/providers/user_provider.dart';
@@ -39,6 +40,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,  //Retira a marcação de debug
       title: 'Amazon Clone',
       theme: ThemeData(
         scaffoldBackgroundColor: GlobalVariables.backgroundColor,
@@ -53,9 +55,9 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: ((settings) => generateRoute(settings)),
 // Páginal inicial
       home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-      //(token not empty vai para a home (bottom page))
-          ? const BottomBar()
-      //(token empty vai para a pág de autenticação (sign up/in))
+          ? Provider.of<UserProvider>(context).user.type == 'user'
+              ? const BottomBar()
+              : const AdminScreen()
           : const AuthScreen(),
     );
   }
