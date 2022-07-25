@@ -2,6 +2,7 @@ const express = require("express");     //<- importando 'express'
 const mongoose = require("mongoose");   //(necessario para se conectar com o banco)
 
 const authRouter = require('./routes/auth');
+const adminRouter = require("./routes/admin");
 
 //Inicializações
 const app = express()   //<- inicializando o express
@@ -11,6 +12,7 @@ const DB = "mongodb+srv://larissa:larissa@cluster0.irmmksz.mongodb.net/?retryWri
 //Middleware
 app.use(express.json());
 app.use(authRouter);
+app.use(adminRouter);
 
 //Conexões
 mongoose.connect(DB).then(() => {
