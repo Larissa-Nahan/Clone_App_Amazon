@@ -1,3 +1,7 @@
+import 'package:amazon/common/widgets/loader.dart';
+import 'package:amazon/features/home/services/home_services.dart';
+import 'package:amazon/features/product_details/screens/product_details_screen.dart';
+import 'package:amazon/models/product.dart';
 import 'package:flutter/material.dart';
 
 class DealOfDay extends StatefulWidget {
@@ -8,85 +12,97 @@ class DealOfDay extends StatefulWidget {
 }
 
 class _DealOfDayState extends State<DealOfDay> {
+  final HomeServices homeServices = HomeServices();
+  Product? product;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDealOfDay();
+  }
+
+  void fetchDealOfDay() async {
+    product = await homeServices.fetchDealOfDay(context: context);
+    setState(() {});
+  }
+
+  void navigateToDetailScreen() {
+    Navigator.pushNamed(context, ProductDetailsScreen.routeName,
+        arguments: product);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(left: 10, top: 15),
-          child: const Text(
-            "Deal of the day",
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-        ),
-        Image.network(
-          'https://gkpb.com.br/wp-content/uploads/2021/12/air-fry-oven-britania-destaque.jpg',
-          height: 235,
-          fit: BoxFit.fitHeight,
-        ),
-        Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(left: 15),
-          child: const Text(
-            "\$999.99",
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-        Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(left: 15, top: 5, right: 40),
-          child: const Text(
-            'Air Fryer',
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.network(
-                'https://gkpb.com.br/wp-content/uploads/2021/12/air-fry-oven-britania-1024x683.jpg',
-                height: 100,
-                width: 100,
-                fit: BoxFit.fitWidth,
-              ),
-              Image.network(
-                'https://img.itdg.com.br/tdg/images/blog/uploads/2022/03/5receitas-para-preparar-na-airfryer.jpg',
-                height: 100,
-                width: 100,
-                fit: BoxFit.fitWidth,
-              ),
-              Image.network(
-                'https://gkpb.com.br/wp-content/uploads/2021/12/air-fry-oven-britania-1024x683.jpg',
-                height: 100,
-                width: 100,
-                fit: BoxFit.fitWidth,
-              ),
-              Image.network(
-                'https://img.itdg.com.br/tdg/images/blog/uploads/2022/03/5receitas-para-preparar-na-airfryer.jpg',
-                height: 100,
-                width: 100,
-                fit: BoxFit.fitWidth,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(top: 15, bottom: 15, left: 15),
-          alignment: Alignment.topLeft,
-          child: Text(
-            "See all deals",
-            style: TextStyle(
-              color: Colors.cyan[800],
-            ),
-          ),
-        ),
-      ],
-    );
+    return product == null
+        ? const Loader()
+        : product!.name.isEmpty
+            ? const SizedBox()
+            : GestureDetector(
+                onTap: navigateToDetailScreen,
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(left: 10, top: 15),
+                      child: const Text(
+                        "Deal of the day",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    Image.network(
+                      product!.images[0],
+                      height: 235,
+                      fit: BoxFit.fitHeight,
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        '\$${product!.price}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      padding:
+                          const EdgeInsets.only(left: 15, top: 5, right: 40),
+                      child: Text(
+                        product!.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: product!.images
+                            .map(
+                              (e) => Image.network(
+                                e,
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.fitWidth,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                    Container(
+                      padding:
+                          const EdgeInsets.only(top: 15, bottom: 15, left: 15),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "See all deals",
+                        style: TextStyle(
+                          color: Colors.cyan[800],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
   }
 }
