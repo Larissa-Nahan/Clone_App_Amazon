@@ -121,7 +121,7 @@ class AuthService {
       var response = jsonDecode(tokenRes.body);
 
       //(pegar o conteúdo do usuário)
-      if (response) {
+      if (response == true) {
         http.Response userRes = await http.get(
           Uri.parse('$uri/'),
           headers: <String, String>{
