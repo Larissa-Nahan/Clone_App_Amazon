@@ -6,7 +6,6 @@ import 'package:amazon/constants/global_variables.dart';
 import 'package:amazon/constants/utils.dart';
 import 'package:amazon/models/user.dart';
 import 'package:amazon/providers/user_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
 import 'package:provider/provider.dart';
@@ -29,6 +28,7 @@ class AuthService {
         address: '',
         type: '',
         token: '',
+        cart: [],
       );
 
       http.Response res = await http.post(

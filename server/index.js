@@ -4,6 +4,7 @@ const mongoose = require("mongoose");   //(necessario para se conectar com o ban
 const authRouter = require('./routes/auth');
 const adminRouter = require("./routes/admin");
 const productRouter = require("./routes/product");
+const userRouter = require("./routes/user");
 
 //Inicializações
 const app = express()   //<- inicializando o express
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
+app.use(userRouter);
 
 //Conexões
 mongoose.connect(DB).then(() => {

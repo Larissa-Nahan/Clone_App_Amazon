@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const ratingSchema = mongoose.Schema({
   userId: {
     type: String,
-    require: true,
+    required: true,
   },
   rating: {
     type: Number,
-    require: true,
+    required: true,
   },
 });
 
