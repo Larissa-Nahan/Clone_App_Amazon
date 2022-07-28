@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:amazon/constants/error_handling.dart';
 import 'package:amazon/constants/global_variables.dart';
@@ -37,6 +36,39 @@ class AddressServices {
             address: jsonDecode(res.body)['address'],
           );
 
+          userProvider.setUserFromModel(user);
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  void placeOrder({
+    required BuildContext context,
+    required String address,
+    required double totalSum,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    try {
+      http.Response res = await http.post(Uri.parse('$uri/api/order'),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            'x-auth-token': userProvider.user.token,
+          },
+          body: jsonEncode({
+            'cart': userProvider.user.cart,
+            'address': address,
+            'totalPrice': totalSum,
+          }));
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(context, 'Your order has been placed');
+          User user = userProvider.user.copyWith(cart: []);
           userProvider.setUserFromModel(user);
         },
       );
