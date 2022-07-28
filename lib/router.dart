@@ -1,4 +1,5 @@
 import 'package:amazon/common/widgets/bottom_bar.dart';
+import 'package:amazon/features/address/screens/address_screen.dart';
 import 'package:amazon/features/admin/screen/add_product_screen.dart';
 import 'package:amazon/features/home/screens/category_deals_screen.dart';
 import 'package:amazon/features/home/screens/home_screen.dart';
@@ -59,6 +60,15 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => ProductDetailsScreen(
           product: product,
+        ),
+      );
+    //Route endereço
+    case AddressScreen.routeName:
+      var totalAmount = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => AddressScreen(
+          totalAmount: totalAmount,
         ),
       );
     //Route pag não existe
