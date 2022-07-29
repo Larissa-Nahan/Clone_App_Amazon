@@ -3,8 +3,10 @@ import 'package:amazon/features/address/screens/address_screen.dart';
 import 'package:amazon/features/admin/screen/add_product_screen.dart';
 import 'package:amazon/features/home/screens/category_deals_screen.dart';
 import 'package:amazon/features/home/screens/home_screen.dart';
+import 'package:amazon/features/order_details/screen/order_details_screen.dart';
 import 'package:amazon/features/product_details/screens/product_details_screen.dart';
 import 'package:amazon/features/search/screen/search_screen.dart';
+import 'package:amazon/models/order.dart';
 import 'package:amazon/models/product.dart';
 import 'package:flutter/material.dart';
 import 'features/auth/screens/auth_screen.dart';
@@ -69,6 +71,15 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => AddressScreen(
           totalAmount: totalAmount,
+        ),
+      );
+    //Route detalhes do pedido
+    case OrderDetailsScreen.routeName:
+      var order = routeSettings.arguments as Order;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => OrderDetailsScreen(
+          order: order,
         ),
       );
     //Route pag não existe
