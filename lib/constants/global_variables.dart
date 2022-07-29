@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String uri = "http://amazon-clone-testing.heroku.com:3001";
+String uri = "http://amazon-clone-testing.heroku.com";
 
 class GlobalVariables {
   // Cores
