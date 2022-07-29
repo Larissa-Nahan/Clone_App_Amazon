@@ -51,11 +51,26 @@ adminRouter.post("/admin/delete-product", admin, async (req, res) => {
 });
 
 //Get all orders
-adminRouter.post("/admin/get-orders", admin, async (req, res) => {
+adminRouter.get("/admin/get-orders", admin, async (req, res) => {
   try {
     const orders = await Order.find({});
 
     res.json(orders);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+//Change order status
+adminRouter.post("/admin/change-order-status", admin, async (req, res) => {
+  try {
+    const { id, status } = req.body;
+
+    let order = await Order.findById(id);
+    order.status = status;
+
+    order = await order.save;
+    res.json(order);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }

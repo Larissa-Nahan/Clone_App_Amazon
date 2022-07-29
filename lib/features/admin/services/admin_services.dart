@@ -100,13 +100,13 @@ class AdminServices {
 
     return productList;
   }
- 
+
   //Delete product
   void deleteProduct({
     required BuildContext context,
     required product,
     required VoidCallback onSuccess,
-  })async {
+  }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       http.Response res = await http.post(
@@ -130,7 +130,7 @@ class AdminServices {
     }
   }
 
-   //get all orders
+  //get all orders
   Future<List<Order>> fetchAllOrders(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Order> orderList = [];
@@ -164,4 +164,38 @@ class AdminServices {
     return orderList;
   }
 
+  //change order status
+  Future<List<Order>> changeOrderStatus({
+    required BuildContext context,
+    required int status,
+    required Order order,
+    required VoidCallback onSuccess,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<Order> orderList = [];
+
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/admin/change-order-status'),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+        body: jsonEncode({
+          'id': order.id,
+          'status': status,
+        }),
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: onSuccess,
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+
+    return orderList;
+  }
 }
